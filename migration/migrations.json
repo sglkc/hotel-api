@@ -1,7 +1,7 @@
 {
 	"tables": [
 		{
-			"name": "jenis_kamar",
+			"name": "room_types",
 			"primary_key": "id",
 			"foreign_keys": [],
 			"rows": [
@@ -11,7 +11,7 @@
 					"attributes": "default null"
 				},
 				{
-					"name": "harga_kamar",
+					"name": "price",
 					"type": "int(11)",
 					"attributes": "default null"
 				}
@@ -24,12 +24,12 @@
 			]
 		},
 		{
-			"name": "kamar",
+			"name": "rooms",
 			"primary_key": "id",
 			"foreign_keys": [
 				{
-					"key": "jenis_kamar",
-					"table": "jenis_kamar",
+					"key": "room_type",
+					"table": "room_types",
 					"row": "id"
 				}
 			],
@@ -40,7 +40,7 @@
 					"attributes": "default null"
 				},
 				{
-					"name": "jenis_kamar",
+					"name": "room_type",
 					"type": "int(11)",
 					"attributes": "default null"
 				},
@@ -50,7 +50,7 @@
 					"attributes": "default current_timestamp"
 				},
 				{
-					"name": "max_kapasitas",
+					"name": "max_capacity",
 					"type": "int(11)",
 					"attributes": "default null"
 				},
@@ -71,23 +71,23 @@
 			]
 		},
 		{
-			"name": "inventory_kamar",
+			"name": "inventories",
 			"primary_key": "id",
 			"foreign_keys": [
 				{
-					"key": "kamar_id",
-					"table": "kamar",
+					"key": "room_id",
+					"table": "rooms",
 					"row": "id"
 				}
 			],
 			"rows": [
 				{
-					"name": "kamar_id",
+					"name": "room_id",
 					"type": "int(11)",
 					"attributes": "default null"
 				},
 				{
-					"name": "nama",
+					"name": "name",
 					"type": "varchar(100)",
 					"attributes": "default null"
 				}
@@ -116,8 +116,8 @@
 			"primary_key": "id",
 			"foreign_keys": [
 				{
-					"key": "kamar_id",
-					"table": "kamar",
+					"key": "room_id",
+					"table": "rooms",
 					"row": "id"
 				},
 				{
@@ -128,7 +128,7 @@
 			],
 			"rows": [
 				{
-					"name": "kamar_id",
+					"name": "room_id",
 					"type": "int(11)",
 					"attributes": "default null"
 				},
@@ -143,12 +143,12 @@
 					"attributes": "default null"
 				},
 				{
-					"name": "nama_user",
+					"name": "fullname",
 					"type": "varchar(100)",
 					"attributes": "default null"
 				},
 				{
-					"name": "no_telp",
+					"name": "phone",
 					"type": "int(11)",
 					"attributes": "default null"
 				},
@@ -189,7 +189,7 @@
 			],
 			"rows": [
 				{
-					"name": "full_name",
+					"name": "fullname",
 					"type": "varchar(100)",
 					"attributes": "default null"
 				},
