@@ -1,14 +1,5 @@
-const { mysql } = require('../db/connection.js');
+const { mysql, asyncQuery } = require('../db/connection.js');
 const { tables } = require('./migrations.json');
-
-async function query(query, values = []) {
-  return new Promise((resolve, reject)=>{
-    mysql.query(query, values, (err, res) => {
-      if (err) return reject(err);
-      return resolve(res);
-    });
-  });
-}
 
 (async () => {
   console.log('\x1b[33m%s\x1b[0m', 'npm run migrate help - help for commands');
@@ -26,10 +17,10 @@ async function query(query, values = []) {
 
   // Dropping
   if (process.argv.includes('fresh')) {
-    await query('SET FOREIGN_KEY_CHECKS = 0');
+    await asyncQuery('SET FOREIGN_KEY_CHECKS = 0');
 
     for await (const t of tables) {
-      const res = await query(`DROP TABLE IF EXISTS ${t.name}`);
+      const res = await asyncQuery(`DROP TABLE IF EXISTS ${t.name}`);
 
       if (res.warningCount) continue;
 
@@ -39,7 +30,6 @@ async function query(query, values = []) {
 
   // Creating
   for await (const t of tables) {
-    // foreign = { key, table, row }
     const primary = `${t.primary_key} int PRIMARY KEY NOT NULL AUTO_INCREMENT`;
     const keys = t.foreign_keys.map((f, i) => {
       return `KEY ${t.name}_FK_${i} (${f.key})`;
@@ -53,7 +43,7 @@ async function query(query, values = []) {
     const rows = t.rows.map((r) => `${r.name} ${r.type} ${r.attributes}`);
     const row = `${primary}, ${rows.join(', ')}${foreigns}`;
     const que = `CREATE TABLE IF NOT EXISTS ${t.name} (${row})`;
-    const res = await query(que);
+    const res = await asyncQuery(que);
 
     if (!res.warningCount) console.log(`Created table ${t.name}`);
   };
@@ -66,7 +56,7 @@ async function query(query, values = []) {
       const rows = t.rows.map((r) => r.name);
       const values = t.values.map((v) => v.join(', '));
       const que = `INSERT INTO ${t.name} (${rows}) VALUES (?)`;
-      const res = await query(que, t.values);
+      const res = await asyncQuery(que, t.values);
 
       console.log(`Successfully seed ${t.name}`);
     };
