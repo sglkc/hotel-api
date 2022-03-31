@@ -55,8 +55,8 @@ const { tables } = require('./migrations.json');
 
       const rows = t.rows.map((r) => r.name);
       const values = t.values.map((v) => v.join(', '));
-      const que = `INSERT INTO ${t.name} (${rows}) VALUES (?)`;
-      const res = await asyncQuery(que, t.values);
+      const que = `INSERT INTO ${t.name} (${rows}) VALUES ?`;
+      const res = await asyncQuery(que, [ t.values ]);
 
       console.log(`Successfully seed ${t.name}`);
     };

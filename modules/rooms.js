@@ -15,6 +15,12 @@ function getRooms(req, res) {
 }
 
 function createRoom(req, res) {
+  if (!Object.keys(req.body).length) {
+    return res.status(400).send({
+      error: 'name:string, room_type:int, max_capacity:int, inventory:array'
+    });
+  }
+
   const values = [
     req.body.name,
     req.body.room_type,
@@ -43,6 +49,12 @@ function createRoom(req, res) {
 }
 
 function updateRoom(req, res) {
+  if (!Object.keys(req.body).length) {
+    return res.status(400).send({
+      error: 'name:string, room_type:int, max_capacity:int, status:int'
+    });
+  }
+
   const id = req.params.id;
   let query =
     `

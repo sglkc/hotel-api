@@ -13,6 +13,12 @@ function cryptPassword(password, callback) {
 }
 
 function register(req, res) {
+  if (!Object.keys(req.body).length) {
+    return res.status(400).send({
+      error: 'fullname:string, email:string, password:string, role:int'
+    });
+  }
+
   cryptPassword(req.body.password, (error, hash) => {
     if (error) return res.status(400).send({ error });
 
@@ -39,6 +45,12 @@ function register(req, res) {
 }
 
 function login(req, res) {
+  if (!Object.keys(req.body).length) {
+    return res.status(400).send({
+      error: 'email:string, password:string'
+    });
+  }
+
   mysql.query(
     'SELECT * FROM users WHERE email = ?',
     [ req.body.email ],
@@ -63,4 +75,13 @@ function login(req, res) {
   )
 }
 
-module.exports = { login, register };
+function getRoles(req, res) {
+  mysql.query('SELECT * FROM roles', (error, result) => {
+    if (error) return res.status(400).send({ error });
+    if (!result.length) return res.status(400).send({ error: 'Roles empty' });
+
+    return res.status(200).send({ result });
+  });
+}
+
+module.exports = { getRoles, login, register };

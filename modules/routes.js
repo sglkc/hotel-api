@@ -1,8 +1,9 @@
 const express = require('express');
-const { login, register } = require('./auth.js');
+const { getRoles, login, register } = require('./auth.js');
 const { getRooms, createRoom, updateRoom, deleteRoom } = require('./rooms.js');
 const router = express.Router();
 
+router.get('/auth/roles', getRoles);
 router.post('/auth/login', login);
 router.post('/auth/register', register);
 
