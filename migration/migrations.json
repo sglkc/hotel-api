@@ -1,6 +1,45 @@
 {
 	"tables": [
 		{
+			"name": "facilities",
+			"primary_key": "id",
+			"foreign_keys": [],
+			"rows": [
+				{
+					"name": "name",
+					"type": "varchar(100)",
+					"attributes": "not null"
+				},
+				{
+					"name": "notes",
+					"type": "text",
+					"attributes": "default null"
+				}
+			],
+			"values": [
+				[
+					"Toilet",
+					null
+				],
+				[
+					"Wifi",
+					"Free, 5G, 1Gbps"
+				],
+				[
+					"Food",
+					null
+				],
+				[
+					"Cleaning Service",
+					"Looking for new employees"
+				],
+				[
+					"Swimming Pool",
+					"Not for kids"
+				]
+			]
+		},
+		{
 			"name": "room_types",
 			"primary_key": "id",
 			"foreign_keys": [],
@@ -8,17 +47,17 @@
 				{
 					"name": "name",
 					"type": "varchar(100)",
-					"attributes": "default null"
+					"attributes": "not null"
 				},
 				{
 					"name": "price",
 					"type": "int(11)",
-					"attributes": "default null"
+					"attributes": "default 0"
 				}
 			],
 			"values": [
 				[
-					"reguler",
+					"Regular",
 					160000
 				]
 			]
@@ -37,12 +76,12 @@
 				{
 					"name": "name",
 					"type": "varchar(100)",
-					"attributes": "default null"
+					"attributes": "not null"
 				},
 				{
 					"name": "room_type",
 					"type": "int(11)",
-					"attributes": "default null"
+					"attributes": "not null"
 				},
 				{
 					"name": "created_at",
@@ -51,8 +90,8 @@
 				},
 				{
 					"name": "max_capacity",
-					"type": "int(11)",
-					"attributes": "default null"
+					"type": "tinyint(4)",
+					"attributes": "default 1"
 				},
 				{
 					"name": "status",
@@ -84,35 +123,35 @@
 				{
 					"name": "room_id",
 					"type": "int(11)",
-					"attributes": "default null"
+					"attributes": "not null"
 				},
 				{
 					"name": "name",
 					"type": "varchar(100)",
-					"attributes": "default null"
+					"attributes": "not null"
 				}
 			],
 			"values": [
 				[
 					1,
-					"kedap suara"
+					"Soundproof"
 				],
 				[
 					1,
-					"gayung"
+					"Gayung"
 				],
 				[
 					1,
-					"kasur"
+					"Bed"
 				],
 				[
 					1,
-					"toilet"
+					"Toilet"
 				]
 			]
 		},
 		{
-			"name": "pemesanan_kamar",
+			"name": "reservations",
 			"primary_key": "id",
 			"foreign_keys": [
 				{
@@ -130,7 +169,7 @@
 				{
 					"name": "room_id",
 					"type": "int(11)",
-					"attributes": "default null"
+					"attributes": "not null"
 				},
 				{
 					"name": "created_at",
@@ -140,21 +179,11 @@
 				{
 					"name": "created_by",
 					"type": "int(11)",
-					"attributes": "default null"
-				},
-				{
-					"name": "fullname",
-					"type": "varchar(100)",
-					"attributes": "default null"
+					"attributes": "not null"
 				},
 				{
 					"name": "phone",
 					"type": "int(11)",
-					"attributes": "default null"
-				},
-				{
-					"name": "email",
-					"type": "varchar(100)",
 					"attributes": "default null"
 				}
 			],
@@ -168,7 +197,7 @@
 				{
 					"name": "name",
 					"type": "varchar(100)",
-					"attributes": "default null"
+					"attributes": "not null"
 				}
 			],
 			"values": [
@@ -176,7 +205,7 @@
 					"admin"
 				],
 				[
-					"resepsionis"
+					"receptionist"
 				]
 			]
 		},
@@ -194,7 +223,7 @@
 				{
 					"name": "fullname",
 					"type": "varchar(100)",
-					"attributes": "default null"
+					"attributes": "not null"
 				},
 				{
 					"name": "email",
@@ -204,12 +233,12 @@
 				{
 					"name": "role",
 					"type": "int(11)",
-					"attributes": "default null"
+					"attributes": "not null"
 				},
 				{
 					"name": "password",
 					"type": "varchar(100)",
-					"attributes": "default null"
+					"attributes": "not null"
 				}
 			],
 			"values": []
