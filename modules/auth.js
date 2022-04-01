@@ -30,15 +30,14 @@ function register(req, res) {
         if (result.length) {
           return res.status(400).send({ error: 'Email has been registered' });
         }
-      }
-    );
-
-    mysql.query(
-      'INSERT INTO users (full_name, email, password, role) VALUES (?)',
-      [ [ req.body.full_name, req.body.email, hash, req.body.role ] ],
-      (error, result) => {
-        if (error) return res.status(400).send({ error });
-        return res.status(200).send({ result });
+        mysql.query(
+          'INSERT INTO users (full_name, email, password, role) VALUES (?)',
+          [ [ req.body.full_name, req.body.email, hash, req.body.role ] ],
+          (error, result) => {
+            if (error) return res.status(400).send({ error });
+            return res.status(200).send({ result });
+          }
+        );
       }
     );
   });
@@ -63,11 +62,13 @@ function login(req, res) {
       const user = result[0];
       bcrypt.compare(req.body.password, user.password, (error, result) => {
         if (error) return res.status(400).send({ error });
-        if (!res) return res.status(400).send({ error: 'Password is invalid'});
+        if (!result) return res.status(400).send({ error: 'Password invalid'});
 
         const token = jwt.sign(
           { id: user.id }, process.env.JWT_SECRET, { expiresIn: '2h' }
         );
+
+        delete user.password;
 
         return res.status(200).send({ result: { token, user } });
       });
