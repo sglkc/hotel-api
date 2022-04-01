@@ -36,7 +36,7 @@ const { tables } = require('./migrations.json');
     });
     const constraints = t.foreign_keys.map((f, i) => {
       return `CONSTRAINT ${t.name}_FK_${i} FOREIGN KEY (${f.key}) ` +
-      `REFERENCES ${f.table} (${f.row})`;
+      `REFERENCES ${f.table} (${f.row}) ON DELETE CASCADE`;
     });
     const foreigns = t.foreign_keys.length ?
       `, ${keys.join(', ')}, ${constraints.join(', ')}` : '';

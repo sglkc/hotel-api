@@ -53,12 +53,23 @@
 					"name": "price",
 					"type": "int(11)",
 					"attributes": "default 0"
+				},
+				{
+					"name": "total",
+					"type": "int(11)",
+					"attributes": "default 1"
 				}
 			],
 			"values": [
 				[
 					"Regular",
-					160000
+					160000,
+					10
+				],
+				[
+					"Exclusive",
+					500000,
+					5
 				]
 			]
 		},

@@ -3,6 +3,7 @@ const auth = require('./auth.js');
 const facilities = require('./facilities.js');
 const rooms = require('./rooms.js');
 const roomFacilities = require('./room-facilities.js');
+const roomTypes = require('./room-types.js');
 const router = express.Router();
 let group = '';
 
@@ -35,6 +36,14 @@ let group = '';
   router.post(group + '/facilities', roomFacilities.createRoomFacility);
   router.put(group + '/facilities/:id', roomFacilities.updateRoomFacility);
   router.delete(group + '/facilities/:id', roomFacilities.deleteRoomFacility);
+}
+
+{
+  let group = '/services/rooms';
+  router.get(group + '/types', roomTypes.getRoomTypes);
+  router.post(group + '/types', roomTypes.createRoomType);
+  router.put(group + '/types/:id', roomTypes.updateRoomType);
+  router.delete(group + '/types/:id', roomTypes.deleteRoomType);
 }
 
 module.exports.routes = router;
