@@ -15,7 +15,7 @@ function cryptPassword(password, callback) {
 function register(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'fullname:string, email:string, password:string, role:int'
+      error: 'full_name:string, email:string, password:string, role:int'
     });
   }
 
@@ -34,8 +34,8 @@ function register(req, res) {
     );
 
     mysql.query(
-      'INSERT INTO users (fullname, email, password, role) VALUES (?)',
-      [ [ req.body.fullname, req.body.email, hash, req.body.role ] ],
+      'INSERT INTO users (full_name, email, password, role) VALUES (?)',
+      [ [ req.body.full_name, req.body.email, hash, req.body.role ] ],
       (error, result) => {
         if (error) return res.status(400).send({ error });
         return res.status(200).send({ result });

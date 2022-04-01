@@ -76,7 +76,7 @@ function deleteFacility(req, res) {
     DELETE FROM facilities WHERE id = ?
     `;
 
-  mysql.query(query, [id, id], (error, result) => {
+  mysql.query(query, [id], (error, result) => {
     if (error) return res.status(400).send({ error });
     return res.status(200).send({ result });
   });

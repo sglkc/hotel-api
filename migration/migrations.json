@@ -89,7 +89,7 @@
 					"attributes": "default current_timestamp"
 				},
 				{
-					"name": "max_capacity",
+					"name": "capacity",
 					"type": "tinyint(4)",
 					"attributes": "default 1"
 				},
@@ -110,7 +110,7 @@
 			]
 		},
 		{
-			"name": "inventories",
+			"name": "room_facilities",
 			"primary_key": "id",
 			"foreign_keys": [
 				{
@@ -129,24 +129,33 @@
 					"name": "name",
 					"type": "varchar(100)",
 					"attributes": "not null"
+				},
+				{
+					"name": "notes",
+					"type": "text",
+					"attributes": "default null"
 				}
 			],
 			"values": [
 				[
 					1,
-					"Soundproof"
+					"Soundproof",
+					null
 				],
 				[
 					1,
-					"Gayung"
+					"Gayung",
+					null
 				],
 				[
 					1,
-					"Bed"
+					"Bed",
+					"Free pillows"
 				],
 				[
 					1,
-					"Toilet"
+					"Toilet",
+					"Free soap"
 				]
 			]
 		},
@@ -221,7 +230,7 @@
 			],
 			"rows": [
 				{
-					"name": "fullname",
+					"name": "full_name",
 					"type": "varchar(100)",
 					"attributes": "not null"
 				},

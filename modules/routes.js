@@ -2,6 +2,7 @@ const express = require('express');
 const auth = require('./auth.js');
 const facilities = require('./facilities.js');
 const rooms = require('./rooms.js');
+const roomFacilities = require('./room-facilities.js');
 const router = express.Router();
 let group = '';
 
@@ -26,6 +27,14 @@ let group = '';
   router.post(group + '/rooms', rooms.createRoom);
   router.put(group + '/rooms/:id', rooms.updateRoom);
   router.delete(group + '/rooms/:id', rooms.deleteRoom);
+}
+
+{
+  let group = '/services/rooms/:roomid';
+  router.get(group + '/facilities', roomFacilities.getRoomFacilities);
+  router.post(group + '/facilities', roomFacilities.createRoomFacility);
+  router.put(group + '/facilities/:id', roomFacilities.updateRoomFacility);
+  router.delete(group + '/facilities/:id', roomFacilities.deleteRoomFacility);
 }
 
 module.exports.routes = router;
