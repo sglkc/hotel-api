@@ -12,6 +12,19 @@ function getRoomTypes(req, res) {
   });
 }
 
+function getRoomType(req, res) {
+  const id = req.params.id;
+  let query =
+    `
+    SELECT * FROM room_types WHERE id = ?
+    `;
+
+  mysql.query(query, [[id]], (error, result) => {
+    if (error) return res.status(400).send({ error });
+    return res.status(200).send({ result });
+  });
+}
+
 function createRoomType(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
@@ -86,6 +99,7 @@ function deleteRoomType(req, res) {
 
 module.exports = {
   getRoomTypes,
+  getRoomType,
   createRoomType,
   updateRoomType,
   deleteRoomType

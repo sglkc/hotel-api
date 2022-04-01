@@ -25,6 +25,7 @@ let group = '';
 {
   let group = '/services';
   router.get(group + '/rooms', rooms.getRooms);
+  router.get(group + '/rooms/:id', rooms.getRoom);
   router.post(group + '/rooms', rooms.createRoom);
   router.put(group + '/rooms/:id', rooms.updateRoom);
   router.delete(group + '/rooms/:id', rooms.deleteRoom);
@@ -39,11 +40,12 @@ let group = '';
 }
 
 {
-  let group = '/services/rooms';
-  router.get(group + '/types', roomTypes.getRoomTypes);
-  router.post(group + '/types', roomTypes.createRoomType);
-  router.put(group + '/types/:id', roomTypes.updateRoomType);
-  router.delete(group + '/types/:id', roomTypes.deleteRoomType);
+  let group = '/services';
+  router.get(group + '/room-types', roomTypes.getRoomTypes);
+  router.get(group + '/room-types/:id', roomTypes.getRoomType);
+  router.post(group + '/room-types', roomTypes.createRoomType);
+  router.put(group + '/room-types/:id', roomTypes.updateRoomType);
+  router.delete(group + '/room-types/:id', roomTypes.deleteRoomType);
 }
 
 module.exports.routes = router;

@@ -14,6 +14,22 @@ function getRooms(req, res) {
   });
 }
 
+function getRoom(req, res) {
+  const id = req.params.id;
+  let query =
+    `
+    SELECT t.name AS type_name, t.price, r.* FROM rooms AS r
+    LEFT JOIN room_types AS t
+    ON t.id = r.room_type
+    WHERE r.id = ?
+    `;
+
+  mysql.query(query, [[id]], (error, result) => {
+    if (error) return res.status(400).send({ error });
+    return res.status(200).send({ result });
+  });
+}
+
 function createRoom(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
@@ -86,4 +102,4 @@ function deleteRoom(req, res) {
   });
 }
 
-module.exports = { getRooms, createRoom, updateRoom, deleteRoom };
+module.exports = { getRooms, getRoom, createRoom, updateRoom, deleteRoom };
