@@ -1,33 +1,45 @@
 const { mysql } = require('../db/connection.js');
 
-function getRoomFacilities(req, res) {
-  const roomid = req.params.roomid;
+function index(req, res) {
   let query =
     `
-    SELECT * FROM room_facilities WHERE room_id = ?
+    SELECT * FROM room_types
     `;
 
-  mysql.query(query, [[roomid]], (error, result) => {
+  mysql.query(query, (error, result) => {
     if (error) return res.status(400).send({ error });
     return res.status(200).send({ result });
   });
 }
 
-function createRoomFacility(req, res) {
+function get(req, res) {
+  const id = req.params.id;
+  let query =
+    `
+    SELECT * FROM room_types WHERE id = ?
+    `;
+
+  mysql.query(query, [[id]], (error, result) => {
+    if (error) return res.status(400).send({ error });
+    return res.status(200).send({ result });
+  });
+}
+
+function create(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'name:string, notes:string|null'
+      error: 'name:string, price:int, total:int'
     });
   }
 
   const values = [
-    req.params.roomid,
     req.body.name,
-    req.body.notes
+    req.body.price,
+    req.body.total
   ];
   let query =
     `
-    INSERT INTO room_facilities (room_id, name, notes) VALUES ?
+    INSERT INTO room_types (name, price, total) VALUES ?
     `;
 
   mysql.query(query, [[values]], (error, result) => {
@@ -36,34 +48,34 @@ function createRoomFacility(req, res) {
   });
 }
 
-function updateRoomFacility(req, res) {
+function update(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'name:string, notes:string|null'
+      error: 'name:string, price:int, total:int'
     });
   }
 
-  const roomid = req.params.roomid;
   const id = req.params.id;
   let query =
     `
-    SELECT * FROM room_facilities WHERE room_id = ? AND id = ?
+      SELECT * FROM room_types WHERE id = ?
     `;
 
-  mysql.query(query, [roomid, id], (error, result) => {
+  mysql.query(query, [id], (error, result) => {
     if (error) return res.status(400).send({ error });
     if (!result.length) return res.status(400).send({ error: 'Not found' });
 
-    const room = result[0];
+    const type = result[0];
     const values = [
-      (req.body.name ?? room.name),
-      (req.body.notes ?? room.notes),
-      roomid,
+      (req.body.name ?? type.name),
+      (req.body.price ?? type.price),
+      (req.body.total ?? type.total),
       id
     ];
     query =
       `
-      UPDATE room_facilities SET name = ?,notes = ? WHERE room_id = ? AND id = ?
+      UPDATE room_types SET name = ?, price = ?, total = ?
+      WHERE id = ?
       `;
 
     mysql.query(query, values, (error, result) => {
@@ -73,23 +85,17 @@ function updateRoomFacility(req, res) {
   });
 }
 
-function deleteRoomFacility(req, res) {
-  const roomid = req.params.roomid;
+function _delete(req, res) {
   const id = req.params.id;
   let query =
     `
-    DELETE FROM room_facilities WHERE room_id = ? AND id = ?
+    DELETE FROM room_types WHERE id = ?
     `;
 
-  mysql.query(query, [roomid, id], (error, result) => {
+  mysql.query(query, [id], (error, result) => {
     if (error) return res.status(400).send({ error });
     return res.status(200).send({ result });
   });
 }
 
-module.exports = {
-  getRoomFacilities,
-  createRoomFacility,
-  updateRoomFacility,
-  deleteRoomFacility
-};
+module.exports = { index, get, create, update, delete: _delete };

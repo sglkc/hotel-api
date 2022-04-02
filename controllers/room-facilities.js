@@ -1,18 +1,19 @@
 const { mysql } = require('../db/connection.js');
 
-function getFacilities(req, res) {
+function index(req, res) {
+  const roomid = req.params.roomid;
   let query =
     `
-    SELECT * FROM facilities
+    SELECT * FROM room_facilities WHERE room_id = ?
     `;
 
-  mysql.query(query, (error, result) => {
+  mysql.query(query, [[roomid]], (error, result) => {
     if (error) return res.status(400).send({ error });
     return res.status(200).send({ result });
   });
 }
 
-function createFacility(req, res) {
+function create(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
       error: 'name:string, notes:string|null'
@@ -20,12 +21,13 @@ function createFacility(req, res) {
   }
 
   const values = [
+    req.params.roomid,
     req.body.name,
     req.body.notes
   ];
   let query =
     `
-    INSERT INTO facilities (name, notes) VALUES ?
+    INSERT INTO room_facilities (room_id, name, notes) VALUES ?
     `;
 
   mysql.query(query, [[values]], (error, result) => {
@@ -34,32 +36,35 @@ function createFacility(req, res) {
   });
 }
 
-function updateFacility(req, res) {
+function update(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
       error: 'name:string, notes:string|null'
     });
   }
 
+  const roomid = req.params.roomid;
   const id = req.params.id;
   let query =
     `
-      SELECT * FROM facilities WHERE id = ?
+    SELECT * FROM room_facilities WHERE room_id = ? AND id = ?
     `;
 
-  mysql.query(query, [id], (error, result) => {
+  mysql.query(query, [roomid, id], (error, result) => {
     if (error) return res.status(400).send({ error });
     if (!result.length) return res.status(400).send({ error: 'Not found' });
 
-    const facility = result[0];
+    const room = result[0];
     const values = [
-      (req.body.name ?? facility.name),
-      (req.body.notes ?? facility.notes),
+      (req.body.name ?? room.name),
+      (req.body.notes ?? room.notes),
+      roomid,
       id
     ];
     query =
       `
-      UPDATE facilities SET name = ?, notes = ? WHERE id = ?
+      UPDATE room_facilities SET name = ?, notes = ?
+      WHERE room_id = ? AND id = ?
       `;
 
     mysql.query(query, values, (error, result) => {
@@ -69,22 +74,18 @@ function updateFacility(req, res) {
   });
 }
 
-function deleteFacility(req, res) {
+function _delete(req, res) {
+  const roomid = req.params.roomid;
   const id = req.params.id;
   let query =
     `
-    DELETE FROM facilities WHERE id = ?
+    DELETE FROM room_facilities WHERE room_id = ? AND id = ?
     `;
 
-  mysql.query(query, [id], (error, result) => {
+  mysql.query(query, [roomid, id], (error, result) => {
     if (error) return res.status(400).send({ error });
     return res.status(200).send({ result });
   });
 }
 
-module.exports = {
-  getFacilities,
-  createFacility,
-  updateFacility,
-  deleteFacility
-};
+module.exports = { index, create, update, delete: _delete };

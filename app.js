@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
 const { mysql } = require('./db/connection.js');
-const { routes } = require('./modules/routes.js');
+const { routes } = require('./routes/routes.js');
 const app = express();
 
 mysql.connect((err) => {

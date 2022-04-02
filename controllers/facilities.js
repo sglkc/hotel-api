@@ -1,11 +1,9 @@
 const { mysql } = require('../db/connection.js');
 
-function getRooms(req, res) {
+function index(req, res) {
   let query =
     `
-    SELECT t.name AS type_name, t.price, r.* FROM rooms AS r
-    LEFT JOIN room_types AS t
-    ON t.id = r.room_type
+    SELECT * FROM facilities
     `;
 
   mysql.query(query, (error, result) => {
@@ -14,37 +12,20 @@ function getRooms(req, res) {
   });
 }
 
-function getRoom(req, res) {
-  const id = req.params.id;
-  let query =
-    `
-    SELECT t.name AS type_name, t.price, r.* FROM rooms AS r
-    LEFT JOIN room_types AS t
-    ON t.id = r.room_type
-    WHERE r.id = ?
-    `;
-
-  mysql.query(query, [[id]], (error, result) => {
-    if (error) return res.status(400).send({ error });
-    return res.status(200).send({ result });
-  });
-}
-
-function createRoom(req, res) {
+function create(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'name:string, room_type:int, capacity:int'
+      error: 'name:string, notes:string|null'
     });
   }
 
   const values = [
     req.body.name,
-    req.body.room_type,
-    req.body.capacity
+    req.body.notes
   ];
   let query =
     `
-    INSERT INTO rooms (name, room_type, capacity) VALUES ?
+    INSERT INTO facilities (name, notes) VALUES ?
     `;
 
   mysql.query(query, [[values]], (error, result) => {
@@ -53,33 +34,32 @@ function createRoom(req, res) {
   });
 }
 
-function updateRoom(req, res) {
+function update(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'name:string, capacity:int, status:int'
+      error: 'name:string, notes:string|null'
     });
   }
 
   const id = req.params.id;
   let query =
     `
-      SELECT * FROM rooms WHERE id = ?
+      SELECT * FROM facilities WHERE id = ?
     `;
 
   mysql.query(query, [id], (error, result) => {
     if (error) return res.status(400).send({ error });
     if (!result.length) return res.status(400).send({ error: 'Not found' });
 
-    const room = result[0];
+    const facility = result[0];
     const values = [
-      (req.body.name ?? room.name),
-      (req.body.capacity ?? room.capacity),
-      (req.body.status ?? room.status),
+      (req.body.name ?? facility.name),
+      (req.body.notes ?? facility.notes),
       id
     ];
     query =
       `
-      UPDATE rooms SET name = ?, capacity = ?, status = ? WHERE id = ?
+      UPDATE facilities SET name = ?, notes = ? WHERE id = ?
       `;
 
     mysql.query(query, values, (error, result) => {
@@ -89,11 +69,11 @@ function updateRoom(req, res) {
   });
 }
 
-function deleteRoom(req, res) {
+function _delete(req, res) {
   const id = req.params.id;
   let query =
     `
-    DELETE FROM rooms WHERE id = ?
+    DELETE FROM facilities WHERE id = ?
     `;
 
   mysql.query(query, [id], (error, result) => {
@@ -102,4 +82,4 @@ function deleteRoom(req, res) {
   });
 }
 
-module.exports = { getRooms, getRoom, createRoom, updateRoom, deleteRoom };
+module.exports = { index, create, update, delete: _delete };

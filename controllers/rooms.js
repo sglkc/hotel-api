@@ -1,9 +1,11 @@
 const { mysql } = require('../db/connection.js');
 
-function getRoomTypes(req, res) {
+function index(req, res) {
   let query =
     `
-    SELECT * FROM room_types
+    SELECT t.name AS type_name, t.price, r.* FROM rooms AS r
+    LEFT JOIN room_types AS t
+    ON t.id = r.room_type
     `;
 
   mysql.query(query, (error, result) => {
@@ -12,11 +14,14 @@ function getRoomTypes(req, res) {
   });
 }
 
-function getRoomType(req, res) {
+function get(req, res) {
   const id = req.params.id;
   let query =
     `
-    SELECT * FROM room_types WHERE id = ?
+    SELECT t.name AS type_name, t.price, r.* FROM rooms AS r
+    LEFT JOIN room_types AS t
+    ON t.id = r.room_type
+    WHERE r.id = ?
     `;
 
   mysql.query(query, [[id]], (error, result) => {
@@ -25,21 +30,21 @@ function getRoomType(req, res) {
   });
 }
 
-function createRoomType(req, res) {
+function create(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'name:string, price:int, total:int'
+      error: 'name:string, room_type:int, capacity:int'
     });
   }
 
   const values = [
     req.body.name,
-    req.body.price,
-    req.body.total
+    req.body.room_type,
+    req.body.capacity
   ];
   let query =
     `
-    INSERT INTO room_types (name, price, total) VALUES ?
+    INSERT INTO rooms (name, room_type, capacity) VALUES ?
     `;
 
   mysql.query(query, [[values]], (error, result) => {
@@ -48,33 +53,33 @@ function createRoomType(req, res) {
   });
 }
 
-function updateRoomType(req, res) {
+function update(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'name:string, price:int, total:int'
+      error: 'name:string, capacity:int, status:int'
     });
   }
 
   const id = req.params.id;
   let query =
     `
-      SELECT * FROM room_types WHERE id = ?
+      SELECT * FROM rooms WHERE id = ?
     `;
 
   mysql.query(query, [id], (error, result) => {
     if (error) return res.status(400).send({ error });
     if (!result.length) return res.status(400).send({ error: 'Not found' });
 
-    const type = result[0];
+    const room = result[0];
     const values = [
-      (req.body.name ?? type.name),
-      (req.body.price ?? type.price),
-      (req.body.total ?? type.total),
+      (req.body.name ?? room.name),
+      (req.body.capacity ?? room.capacity),
+      (req.body.status ?? room.status),
       id
     ];
     query =
       `
-      UPDATE room_types SET name = ?, price = ?, total = ? WHERE id = ?
+      UPDATE rooms SET name = ?, capacity = ?, status = ? WHERE id = ?
       `;
 
     mysql.query(query, values, (error, result) => {
@@ -84,11 +89,11 @@ function updateRoomType(req, res) {
   });
 }
 
-function deleteRoomType(req, res) {
+function _delete(req, res) {
   const id = req.params.id;
   let query =
     `
-    DELETE FROM room_types WHERE id = ?
+    DELETE FROM rooms WHERE id = ?
     `;
 
   mysql.query(query, [id], (error, result) => {
@@ -97,10 +102,4 @@ function deleteRoomType(req, res) {
   });
 }
 
-module.exports = {
-  getRoomTypes,
-  getRoomType,
-  createRoomType,
-  updateRoomType,
-  deleteRoomType
-};
+module.exports = { index, get, create, update, delete: _delete };
