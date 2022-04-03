@@ -73,7 +73,9 @@ function login(req, res) {
         if (!result) return res.status(400).send({ error: 'Password invalid'});
 
         const token = jwt.sign(
-          { id: user.id }, process.env.JWT_SECRET, { expiresIn: '2h' }
+          { id: user.id, role_name: user.role_name },
+          process.env.JWT_SECRET,
+          { expiresIn: '2h' }
         );
 
         delete user.password;
@@ -85,9 +87,25 @@ function login(req, res) {
 }
 
 function verify(req, res) {
-  jwt.verify(req.body.token, process.env.JWT_SECRET, (error, decoded) => {
+  jwt.verify(req.body.token, process.env.JWT_SECRET, (error, user) => {
     if (error) return res.status(401).send({ error });
-    return res.status(200).send({ result: decoded });
+
+    const query =
+      `
+        SELECT r.name AS role_name, u.* FROM users AS u
+        LEFT JOIN roles AS r
+        ON r.id = u.role
+        WHERE u.id = ? AND r.name = ?
+      `;
+
+    mysql.query(query, [user.id, user.role_name], (error, result) => {
+      if (error) return res.status(401).send({ error });
+      if (!result.length) {
+        return res.status(401).send({ error: 'User not found' });
+      }
+
+      return res.status(200).send({ result: user });
+    });
   });
 }
 
