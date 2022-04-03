@@ -8,6 +8,7 @@ let group = '';
   router.get(group + '/roles', c('auth@getRoles'));
   router.post(group + '/login', c('auth@login'));
   router.post(group + '/register', c('auth@register'));
+  router.post(group + '/verify', c('auth@verify'));
 }
 
 {

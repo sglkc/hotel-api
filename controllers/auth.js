@@ -50,8 +50,16 @@ function login(req, res) {
     });
   }
 
+  const query =
+    `
+      SELECT r.name AS role_name, u.* FROM users AS u
+      LEFT JOIN roles AS r
+      ON r.id = u.role
+      WHERE email = ?
+    `;
+
   mysql.query(
-    'SELECT * FROM users WHERE email = ?',
+    query,
     [ req.body.email ],
     (error, result) => {
       if (error) return res.status(400).send({ error });
@@ -76,6 +84,13 @@ function login(req, res) {
   )
 }
 
+function verify(req, res) {
+  jwt.verify(req.body.token, process.env.JWT_SECRET, (error, decoded) => {
+    if (error) return res.status(401).send({ error });
+    return res.status(200).send({ result: decoded });
+  });
+}
+
 function getRoles(req, res) {
   mysql.query('SELECT * FROM roles', (error, result) => {
     if (error) return res.status(400).send({ error });
@@ -85,4 +100,4 @@ function getRoles(req, res) {
   });
 }
 
-module.exports = { getRoles, login, register };
+module.exports = { getRoles, login, register, verify };
