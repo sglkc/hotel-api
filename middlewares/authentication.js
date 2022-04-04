@@ -30,7 +30,7 @@ function adminOnly(req, res, next) {
         SELECT r.name AS role_name, u.* FROM users AS u
         LEFT JOIN roles AS r
         ON r.id = u.role
-        WHERE u.id = ? AND role_name = ?
+        WHERE u.id = ? AND r.name = ?
       `;
 
     mysql.query(query, [user.id, user.role_name], (error, result) => {

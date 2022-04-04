@@ -50,6 +50,11 @@
 					"attributes": "not null"
 				},
 				{
+					"name": "description",
+					"type": "text",
+					"attributes": "default null"
+				},
+				{
 					"name": "price",
 					"type": "int(11)",
 					"attributes": "default 0"
@@ -63,11 +68,13 @@
 			"values": [
 				[
 					"Regular",
+					"Regular room for your everyday needs",
 					160000,
 					10
 				],
 				[
 					"Exclusive",
+					"Relax yourself and get more advantages in this Exclusive type room",
 					500000,
 					5
 				]
@@ -101,7 +108,7 @@
 				},
 				{
 					"name": "capacity",
-					"type": "tinyint(4)",
+					"type": "int(11)",
 					"attributes": "default 1"
 				},
 				{
@@ -125,14 +132,14 @@
 			"primary_key": "id",
 			"foreign_keys": [
 				{
-					"key": "room_id",
-					"table": "rooms",
+					"key": "room_type",
+					"table": "room_types",
 					"row": "id"
 				}
 			],
 			"rows": [
 				{
-					"name": "room_id",
+					"name": "room_type",
 					"type": "int(11)",
 					"attributes": "not null"
 				},

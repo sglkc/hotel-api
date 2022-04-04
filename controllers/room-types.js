@@ -34,12 +34,13 @@ function create(req, res) {
 
   const values = [
     req.body.name,
+    req.body.description,
     req.body.price,
     req.body.total
   ];
   let query =
     `
-    INSERT INTO room_types (name, price, total) VALUES ?
+    INSERT INTO room_types (name, description, price, total) VALUES ?
     `;
 
   mysql.query(query, [[values]], (error, result) => {
@@ -68,13 +69,14 @@ function update(req, res) {
     const type = result[0];
     const values = [
       (req.body.name ?? type.name),
+      (req.body.description ?? type.description),
       (req.body.price ?? type.price),
       (req.body.total ?? type.total),
       id
     ];
     query =
       `
-      UPDATE room_types SET name = ?, price = ?, total = ?
+      UPDATE room_types SET name = ?, description = ?, price = ?, total = ?
       WHERE id = ?
       `;
 
