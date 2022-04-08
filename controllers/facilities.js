@@ -15,17 +15,18 @@ function index(req, res) {
 function create(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'name:string, notes:string|null'
+      error: 'name:string, notes:string|null, image:string|null'
     });
   }
 
   const values = [
     req.body.name,
-    req.body.notes
+    req.body.notes,
+    req.body.image
   ];
   let query =
     `
-    INSERT INTO facilities (name, notes) VALUES ?
+    INSERT INTO facilities (name, notes, image) VALUES ?
     `;
 
   mysql.query(query, [[values]], (error, result) => {
@@ -37,7 +38,7 @@ function create(req, res) {
 function update(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'name:string, notes:string|null'
+      error: 'name:string, notes:string|null, image:string|null'
     });
   }
 
@@ -55,11 +56,12 @@ function update(req, res) {
     const values = [
       (req.body.name ?? facility.name),
       (req.body.notes ?? facility.notes),
+      (req.body.image ?? facility.image),
       id
     ];
     query =
       `
-      UPDATE facilities SET name = ?, notes = ? WHERE id = ?
+      UPDATE facilities SET name = ?, notes = ?, image = ? WHERE id = ?
       `;
 
     mysql.query(query, values, (error, result) => {

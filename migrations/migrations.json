@@ -14,28 +14,38 @@
 					"name": "notes",
 					"type": "text",
 					"attributes": "default null"
+				},
+				{
+					"name": "image",
+					"type": "text",
+					"attributes": "default null"
 				}
 			],
 			"values": [
 				[
-					"Toilet",
-					null
+					"Clean Restroom",
+					null,
+					"https://images.unsplash.com/photo-1569597967185-cd6120712154?ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80"
 				],
 				[
-					"Wifi",
-					"Free, 5G, 1Gbps"
+					"Fast Wifi",
+					"Free, 5G, 1Gbps",
+					"https://images.unsplash.com/photo-1516044734145-07ca8eef8731?ixlib=rb-1.2.1&auto=format&fit=crop&w=1173&q=60"
 				],
 				[
-					"Food",
-					null
+					"High Quality Food",
+					null,
+					"https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=60"
 				],
 				[
 					"Cleaning Service",
-					"Looking for new employees"
+					"Looking for new employees",
+					"https://images.unsplash.com/photo-1603712725038-e9334ae8f39f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1171&q=60"
 				],
 				[
 					"Swimming Pool",
-					"Not for kids"
+					"Not for kids",
+					"https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=60"
 				]
 			]
 		},
@@ -55,6 +65,11 @@
 					"attributes": "default null"
 				},
 				{
+					"name": "image",
+					"type": "text",
+					"attributes": "default null"
+				},
+				{
 					"name": "price",
 					"type": "int(11)",
 					"attributes": "default 0"
@@ -69,12 +84,14 @@
 				[
 					"Regular",
 					"Regular room for your everyday needs",
+					"https://cdn.pixabay.com/photo/2018/06/14/21/15/the-interior-of-the-3475656_960_720.jpg",
 					160000,
 					10
 				],
 				[
 					"Exclusive",
 					"Relax yourself and get more advantages in this Exclusive type room",
+					"https://cdn.pixabay.com/photo/2016/03/28/09/34/bedroom-1285156_960_720.jpg",
 					500000,
 					5
 				]

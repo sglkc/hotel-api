@@ -28,19 +28,21 @@ function get(req, res) {
 function create(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'name:string, price:int, total:int'
+      error:
+      'name:string, description:string, image:string, price:int, total:int'
     });
   }
 
   const values = [
     req.body.name,
     req.body.description,
+    req.body.image,
     req.body.price,
     req.body.total
   ];
   let query =
     `
-    INSERT INTO room_types (name, description, price, total) VALUES ?
+    INSERT INTO room_types (name, description, image, price, total) VALUES ?
     `;
 
   mysql.query(query, [[values]], (error, result) => {
@@ -52,7 +54,8 @@ function create(req, res) {
 function update(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'name:string, price:int, total:int'
+      error:
+      'name:string, description:string, image:string, price:int, total:int'
     });
   }
 
@@ -70,14 +73,15 @@ function update(req, res) {
     const values = [
       (req.body.name ?? type.name),
       (req.body.description ?? type.description),
+      (req.body.image ?? type.image),
       (req.body.price ?? type.price),
       (req.body.total ?? type.total),
       id
     ];
     query =
       `
-      UPDATE room_types SET name = ?, description = ?, price = ?, total = ?
-      WHERE id = ?
+      UPDATE room_types SET name = ?, description = ?, image = ?, price = ?,
+      total = ? WHERE id = ?
       `;
 
     mysql.query(query, values, (error, result) => {
