@@ -1,13 +1,12 @@
 const { mysql } = require('../db/connection.js');
 
 function index(req, res) {
-  const roomid = req.params.roomid;
   let query =
     `
-    SELECT * FROM room_facilities WHERE room_id = ?
+    SELECT * FROM room_facilities
     `;
 
-  mysql.query(query, [[roomid]], (error, result) => {
+  mysql.query(query, (error, result) => {
     if (error) return res.status(400).send({ error });
     return res.status(200).send({ result });
   });
@@ -16,18 +15,18 @@ function index(req, res) {
 function create(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'name:string, notes:string|null'
+      error: 'room_type:int, name:string, notes:string|null'
     });
   }
 
   const values = [
-    req.params.roomid,
+    req.body.room_type,
     req.body.name,
     req.body.notes
   ];
   let query =
     `
-    INSERT INTO room_facilities (room_id, name, notes) VALUES ?
+    INSERT INTO room_facilities (room_type, name, notes) VALUES ?
     `;
 
   mysql.query(query, [[values]], (error, result) => {
@@ -43,14 +42,13 @@ function update(req, res) {
     });
   }
 
-  const roomid = req.params.roomid;
   const id = req.params.id;
   let query =
     `
-    SELECT * FROM room_facilities WHERE room_id = ? AND id = ?
+    SELECT * FROM room_facilities WHERE id = ?
     `;
 
-  mysql.query(query, [roomid, id], (error, result) => {
+  mysql.query(query, [id], (error, result) => {
     if (error) return res.status(400).send({ error });
     if (!result.length) return res.status(400).send({ error: 'Not found' });
 
@@ -58,13 +56,11 @@ function update(req, res) {
     const values = [
       (req.body.name ?? room.name),
       (req.body.notes ?? room.notes),
-      roomid,
       id
     ];
     query =
       `
-      UPDATE room_facilities SET name = ?, notes = ?
-      WHERE room_id = ? AND id = ?
+      UPDATE room_facilities SET name = ?, notes = ? WHERE id = ?
       `;
 
     mysql.query(query, values, (error, result) => {
@@ -75,14 +71,13 @@ function update(req, res) {
 }
 
 function _delete(req, res) {
-  const roomid = req.params.roomid;
   const id = req.params.id;
   let query =
     `
-    DELETE FROM room_facilities WHERE room_id = ? AND id = ?
+    DELETE FROM room_facilities WHERE id = ?
     `;
 
-  mysql.query(query, [roomid, id], (error, result) => {
+  mysql.query(query, [id], (error, result) => {
     if (error) return res.status(400).send({ error });
     return res.status(200).send({ result });
   });
