@@ -3,10 +3,25 @@ const { mysql } = require('../db/connection.js');
 function index(req, res) {
   let query =
     `
-    SELECT * FROM room_facilities
+    SELECT t.name AS type_name, f.* FROM room_facilities AS f
+    LEFT JOIN room_types AS t
+    ON t.id = f.room_type
     `;
 
   mysql.query(query, (error, result) => {
+    if (error) return res.status(400).send({ error });
+    return res.status(200).send({ result });
+  });
+}
+
+function indexFromType(req, res) {
+  const typeid = req.params.typeid;
+  let query =
+    `
+    SELECT * FROM room_facilities WHERE room_type = ?
+    `;
+
+  mysql.query(query, [[typeid]], (error, result) => {
     if (error) return res.status(400).send({ error });
     return res.status(200).send({ result });
   });
@@ -83,4 +98,4 @@ function _delete(req, res) {
   });
 }
 
-module.exports = { index, create, update, delete: _delete };
+module.exports = { index, indexFromType, create, update, delete: _delete };

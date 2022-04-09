@@ -46,4 +46,9 @@ let group = '';
   router.delete(group + '/:id', adminOnly, c('room-types@delete'));
 }
 
+{
+  let group = '/services/room-types/:typeid/facilities'
+  router.get(group + '', c('room-facilities@indexFromType'));
+}
+
 module.exports.routes = router;
