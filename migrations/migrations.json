@@ -23,29 +23,29 @@
 			],
 			"values": [
 				[
-					"Clean Restroom",
-					null,
+					"Restroom",
+					"Hygienic restroom can be used by the public.",
 					"https://images.unsplash.com/photo-1569597967185-cd6120712154?ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80"
 				],
 				[
-					"Fast Wifi",
-					"Free, 5G, 1Gbps",
+					"Wi-Fi Network",
+					"Free, with 5Mbps speed. Reachable across the whole hotel.",
 					"https://images.unsplash.com/photo-1516044734145-07ca8eef8731?ixlib=rb-1.2.1&auto=format&fit=crop&w=1173&q=60"
 				],
 				[
-					"High Quality Food",
-					null,
-					"https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=60"
+					"Restaurant",
+					"Healthy and high-quality food brought to you by professional chefs.",
+					"https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=60"
 				],
 				[
 					"Cleaning Service",
-					"Looking for new employees",
+					"We clean every single place everyday, leaving the hotel without dirt.",
 					"https://images.unsplash.com/photo-1603712725038-e9334ae8f39f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1171&q=60"
 				],
 				[
 					"Swimming Pool",
-					"Not for kids",
-					"https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=60"
+					"Refresh your days in the pool.",
+					"https://images.unsplash.com/photo-1512470289403-f3639ce9ae09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1117&q=60"
 				]
 			]
 		},
@@ -83,16 +83,23 @@
 			"values": [
 				[
 					"Regular",
-					"Regular room for your everyday needs",
+					"Just wanted to have a leisure? This room is perfect for you and your wallet.",
 					"https://cdn.pixabay.com/photo/2018/06/14/21/15/the-interior-of-the-3475656_960_720.jpg",
 					160000,
-					10
+					15
 				],
 				[
 					"Exclusive",
-					"Relax yourself and get more advantages in this Exclusive type room",
+					"Get more comfortable with a living room and a balcony with the city view.",
 					"https://cdn.pixabay.com/photo/2016/03/28/09/34/bedroom-1285156_960_720.jpg",
 					500000,
+					10
+				],
+				[
+					"Premium",
+					"Feel like home, complete with a living room, a dining room, and a fully equipped kitchen.",
+					"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q60",
+					1290000,
 					5
 				]
 			]
@@ -174,23 +181,78 @@
 			"values": [
 				[
 					1,
-					"Soundproof",
-					null
+					"Double Bed",
+					"Includes pillows and a blanket"
 				],
 				[
 					1,
-					"Gayung",
-					null
+					"Work Desk",
+					"Includes a mirror and a table lamp"
+				],
+				[
+					1,
+					"Air Conditioning",
+					"Complete with remote control"
+				],
+				[
+					1,
+					"Bathroom",
+					"A compact bathroom for everyday use"
 				],
 				[
 					2,
-					"Bed",
-					"Free pillows"
+					"Queen Bed",
+					"Includes pillows, a blanket, and a cupboard with bed lamp"
 				],
 				[
 					2,
-					"Toilet",
-					"Free soap"
+					"Air Conditioning",
+					"Complete with remote control"
+				],
+				[
+					2,
+					"Living Room",
+					"Includes a table, sofa, and a comfy rug"
+				],
+				[
+					2,
+					"Balcony",
+					"With city view to accompany you"
+				],
+				[
+					2,
+					"Bathroom",
+					"Features a bathtub and a shower"
+				],
+				[
+					3,
+					"King Bed",
+					"Includes pillows, a blanket, and a cupboard with bed lamp"
+				],
+				[
+					3,
+					"Air Conditioning",
+					"Complete with remote control"
+				],
+				[
+					3,
+					"Living Room",
+					"Includes a table, sofa, a TV, and a DVD player"
+				],
+				[
+					3,
+					"Kitchen",
+					"Free fresh vegetables daily and stainless silverwares"
+				],
+				[
+					3,
+					"Dining Room",
+					"Imported wooden table with comfortable chairs"
+				],
+				[
+					3,
+					"Bathroom",
+					"Spacious bathroom with a bathtub and a shower"
 				]
 			]
 		},
@@ -250,6 +312,9 @@
 				],
 				[
 					"receptionist"
+				],
+				[
+					"user"
 				]
 			]
 		},
