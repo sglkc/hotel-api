@@ -126,11 +126,6 @@
 					"attributes": "not null"
 				},
 				{
-					"name": "created_at",
-					"type": "timestamp",
-					"attributes": "default current_timestamp"
-				},
-				{
 					"name": "capacity",
 					"type": "int(11)",
 					"attributes": "default 1"
@@ -139,15 +134,20 @@
 					"name": "status",
 					"type": "tinyint(4)",
 					"attributes": "default 0"
+				},
+				{
+					"name": "created_at",
+					"type": "timestamp",
+					"attributes": "default current_timestamp"
 				}
 			],
 			"values": [
 				[
 					"x30-04",
 					1,
-					"2022-03-10 05:23:35",
 					3,
-					0
+					0,
+					"2022-03-10 05:23:35"
 				]
 			]
 		},
@@ -257,45 +257,6 @@
 			]
 		},
 		{
-			"name": "reservations",
-			"primary_key": "id",
-			"foreign_keys": [
-				{
-					"key": "room_id",
-					"table": "rooms",
-					"row": "id"
-				},
-				{
-					"key": "created_by",
-					"table": "users",
-					"row": "id"
-				}
-			],
-			"rows": [
-				{
-					"name": "room_id",
-					"type": "int(11)",
-					"attributes": "not null"
-				},
-				{
-					"name": "created_at",
-					"type": "timestamp",
-					"attributes": "default current_timestamp"
-				},
-				{
-					"name": "created_by",
-					"type": "int(11)",
-					"attributes": "not null"
-				},
-				{
-					"name": "phone",
-					"type": "int(11)",
-					"attributes": "default null"
-				}
-			],
-			"values": []
-		},
-		{
 			"name": "roles",
 			"primary_key": "id",
 			"foreign_keys": [],
@@ -350,7 +311,72 @@
 					"attributes": "not null"
 				}
 			],
-			"values": []
+			"values": [
+				[
+					"Dummy",
+					"dummy@dum.my",
+					3,
+					"$2b$10$TcxykAkUBzDNGYkfbH5UMe663KoGTZMM4mHQYJOmdxizxSfKg9Pym"
+				]
+			]
+		},
+		{
+			"name": "reservations",
+			"primary_key": "id",
+			"foreign_keys": [
+				{
+					"key": "room_id",
+					"table": "rooms",
+					"row": "id"
+				},
+				{
+					"key": "user_id",
+					"table": "users",
+					"row": "id"
+				}
+			],
+			"rows": [
+				{
+					"name": "room_id",
+					"type": "int(11)",
+					"attributes": "not null"
+				},
+				{
+					"name": "user_id",
+					"type": "int(11)",
+					"attributes": "not null"
+				},
+				{
+					"name": "phone",
+					"type": "varchar(100)",
+					"attributes": "default null"
+				},
+				{
+					"name": "checkin",
+					"type": "date",
+					"attributes": "not null"
+				},
+				{
+					"name": "checkout",
+					"type": "date",
+					"attributes": "not null"
+				},
+				{
+					"name": "created_at",
+					"type": "timestamp",
+					"attributes": "default current_timestamp"
+				}
+			],
+			"values": [
+				[
+					1,
+					1,
+					"12345678",
+					"2022-04-11",
+					"2022-04-13",
+					"2022-04-11 11:46:12"
+				]
+			]
 		}
 	]
 }

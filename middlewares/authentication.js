@@ -2,7 +2,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const { mysql } = require('../db/connection.js');
 
-function adminOnly(req, res, next) {
+function verify(req, res, next, roles) {
   const auth = req.headers.authorization;
 
   if (!auth) {
@@ -21,7 +21,7 @@ function adminOnly(req, res, next) {
 
   jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
     if (error) return res.status(401).send({ error });
-    if (user.role_name !== 'admin') {
+    if (roles && !roles.includes(user.role_name)) {
       return res.status(401).send({ error: 'Role is not authorized' });
     }
 
@@ -44,4 +44,12 @@ function adminOnly(req, res, next) {
   });
 }
 
-module.exports = { adminOnly }
+function admin(req, res, next) {
+  verify(req, res, next, ['admin']);
+}
+
+function staff(req, res, next) {
+  verify(req, res, next, ['admin', 'receptionist']);
+}
+
+module.exports = { admin, staff, verify };

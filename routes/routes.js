@@ -1,6 +1,6 @@
 const express = require('express');
 const { c } = require('./functions.js');
-const { adminOnly } = require('../middlewares/authentication.js');
+const { admin, staff, verify } = require('../middlewares/authentication.js');
 const router = express.Router();
 let group = '';
 
@@ -15,40 +15,48 @@ let group = '';
 {
   let group = '/services/facilities';
   router.get(group + '', c('facilities@index'));
-  router.post(group + '', adminOnly, c('facilities@create'));
-  router.put(group + '/:id', adminOnly, c('facilities@update'));
-  router.delete(group + '/:id', adminOnly, c('facilities@delete'));
+  router.post(group + '', admin, c('facilities@create'));
+  router.put(group + '/:id', admin, c('facilities@update'));
+  router.delete(group + '/:id', admin, c('facilities@delete'));
 }
 
 {
   let group = '/services/rooms';
   router.get(group + '', c('rooms@index'));
   router.get(group + '/:id', c('rooms@get'));
-  router.post(group + '', adminOnly, c('rooms@create'));
-  router.put(group + '/:id', adminOnly, c('rooms@update'));
-  router.delete(group + '/:id', adminOnly, c('rooms@delete'));
+  router.post(group + '', admin, c('rooms@create'));
+  router.put(group + '/:id', admin, c('rooms@update'));
+  router.delete(group + '/:id', admin, c('rooms@delete'));
 }
 
 {
   let group = '/services/room-facilities';
-  router.get(group + '', c('room-facilities@index'));
-  router.post(group + '', c('room-facilities@create'));
-  router.put(group + '/:id', c('room-facilities@update'));
-  router.delete(group + '/:id', c('room-facilities@delete'));
+  router.get(group + '', staff, c('room-facilities@index'));
+  router.post(group + '', admin, c('room-facilities@create'));
+  router.put(group + '/:id', admin, c('room-facilities@update'));
+  router.delete(group + '/:id', admin, c('room-facilities@delete'));
 }
 
 {
   let group = '/services/room-types';
   router.get(group + '', c('room-types@index'));
   router.get(group + '/:id', c('room-types@get'));
-  router.post(group + '', adminOnly, c('room-types@create'));
-  router.put(group + '/:id', adminOnly, c('room-types@update'));
-  router.delete(group + '/:id', adminOnly, c('room-types@delete'));
+  router.post(group + '', admin, c('room-types@create'));
+  router.put(group + '/:id', admin, c('room-types@update'));
+  router.delete(group + '/:id', admin, c('room-types@delete'));
 }
 
 {
-  let group = '/services/room-types/:typeid/facilities'
+  let group = '/services/room-types/:typeid/facilities';
   router.get(group + '', c('room-facilities@indexFromType'));
+}
+
+{
+  let group = '/services/reservations';
+  router.get(group + '', staff, c('reservations@index'));
+  router.post(group + '', verify, c('reservations@create'));
+  router.put(group + '/:id', staff, c('reservations@update'));
+  router.delete(group + '/:id', staff, c('reservations@delete'));
 }
 
 module.exports.routes = router;
