@@ -56,7 +56,6 @@ let group = '';
   let group = '/services/reservations';
   router.get(group + '', staff, c('reservations@index'));
   router.post(group + '', verify, c('reservations@create'));
-  router.put(group + '/:id', staff, c('reservations@update'));
   router.delete(group + '/:id', staff, c('reservations@delete'));
 }
 

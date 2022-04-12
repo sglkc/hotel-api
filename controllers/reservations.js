@@ -20,7 +20,8 @@ function index(req, res) {
 function create(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'room_id:int, user_id:int, phone:string, notes:string'
+      error:
+        'room_id:int, user_id:int, phone:string, checkin:date, checkout:date'
     });
   }
 
@@ -28,51 +29,18 @@ function create(req, res) {
     req.body.room_id,
     req.body.user_id,
     req.body.phone,
-    req.body.notes
+    req.body.checkin,
+    req.body.checkout
   ];
   let query =
     `
-    INSERT INTO reservations (room_id, user_id, phone, notes) VALUES ?
+    INSERT INTO reservations (room_id, user_id, phone, checkin, checkout)
+    VALUES ?
     `;
 
-  mysql.query(query, [[values]], (error, reult) => {
+  mysql.query(query, [[values]], (error, result) => {
     if (error) return res.status(400).send({ error });
     return res.status(200).send({ result });
-  });
-}
-
-function update(req, res) {
-  if (!Object.keys(req.body).length) {
-    return res.status(400).send({
-      error: 'phone:string, notes:string'
-    });
-  }
-
-  const id = req.params.id;
-  let query =
-    `
-    SELECT * FROM reservations WHERE id = ?
-    `;
-
-  mysql.query(query, [id], (error, result) => {
-    if (error) return res.status(400).send({ error });
-    if (!result.length) return res.status(400).send({ error: 'Not found' });
-
-    const reservation = result[0];
-    const values = [
-      (req.body.phone ?? room.phone),
-      (req.body.notes ?? room.notes),
-      id
-    ];
-    query =
-      `
-      UPDATE reservations SET phone = ?, notes = ? WHERE id = ?
-      `;
-
-    mysql.query(query, values, (error, result) => {
-      if (error) return res.status(400).send({ error });
-      return res.status(200).send({ result });
-    });
   });
 }
 
@@ -89,4 +57,4 @@ function _delete(req, res) {
   });
 }
 
-module.exports = { index, create, update, delete: _delete };
+module.exports = { index, create, delete: _delete };
