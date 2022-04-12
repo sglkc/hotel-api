@@ -14,6 +14,19 @@ function index(req, res) {
   });
 }
 
+function indexFromType(req, res) {
+  const typeid = req.params.typeid;
+  let query =
+    `
+    SELECT * FROM rooms WHERE room_type = ?
+    `;
+
+  mysql.query(query, [[typeid]], (error, result) => {
+    if (error) return res.status(400).send({ error });
+    return res.status(200).send({ result });
+  });
+}
+
 function get(req, res) {
   const id = req.params.id;
   let query =
@@ -56,7 +69,7 @@ function create(req, res) {
 function update(req, res) {
   if (!Object.keys(req.body).length) {
     return res.status(400).send({
-      error: 'name:string, capacity:int, status:int'
+      error: 'name:string, capacity:int'
     });
   }
 
@@ -74,12 +87,11 @@ function update(req, res) {
     const values = [
       (req.body.name ?? room.name),
       (req.body.capacity ?? room.capacity),
-      (req.body.status ?? room.status),
       id
     ];
     query =
       `
-      UPDATE rooms SET name = ?, capacity = ?, status = ? WHERE id = ?
+      UPDATE rooms SET name = ?, capacity = ? WHERE id = ?
       `;
 
     mysql.query(query, values, (error, result) => {
@@ -102,4 +114,4 @@ function _delete(req, res) {
   });
 }
 
-module.exports = { index, get, create, update, delete: _delete };
+module.exports = { index, indexFromType, get, create, update, delete: _delete };
