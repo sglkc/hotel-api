@@ -28,12 +28,6 @@ function indexFromType(req, res) {
 }
 
 function create(req, res) {
-  if (!Object.keys(req.body).length) {
-    return res.status(400).send({
-      error: 'room_type:int, name:string, notes:string|null'
-    });
-  }
-
   const values = [
     req.body.room_type,
     req.body.name,
@@ -51,12 +45,6 @@ function create(req, res) {
 }
 
 function update(req, res) {
-  if (!Object.keys(req.body).length) {
-    return res.status(400).send({
-      error: 'name:string, notes:string|null'
-    });
-  }
-
   const id = req.params.id;
   let query =
     `

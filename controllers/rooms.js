@@ -27,6 +27,21 @@ function indexFromType(req, res) {
   });
 }
 
+function indexAvailableType(req, res) {
+  const typeid = req.params.typeid;
+  let query =
+    `
+    SELECT * FROM rooms
+    WHERE id NOT IN (SELECT room_id FROM reservations)
+    AND room_type = ?
+    `;
+
+  mysql.query(query, [[typeid]], (error, result) => {
+    if (error) return res.status(400).send({ error });
+    return res.status(200).send({ result });
+  });
+}
+
 function get(req, res) {
   const id = req.params.id;
   let query =
@@ -44,12 +59,6 @@ function get(req, res) {
 }
 
 function create(req, res) {
-  if (!Object.keys(req.body).length) {
-    return res.status(400).send({
-      error: 'name:string, room_type:int, capacity:int'
-    });
-  }
-
   const values = [
     req.body.name,
     req.body.room_type,
@@ -67,12 +76,6 @@ function create(req, res) {
 }
 
 function update(req, res) {
-  if (!Object.keys(req.body).length) {
-    return res.status(400).send({
-      error: 'name:string, capacity:int'
-    });
-  }
-
   const id = req.params.id;
   let query =
     `
@@ -114,4 +117,12 @@ function _delete(req, res) {
   });
 }
 
-module.exports = { index, indexFromType, get, create, update, delete: _delete };
+module.exports = {
+  index,
+  indexFromType,
+  indexAvailableType,
+  get,
+  create,
+  update,
+  delete: _delete
+};

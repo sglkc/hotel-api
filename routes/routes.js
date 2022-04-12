@@ -49,6 +49,7 @@ let group = '';
 {
   let group = '/services/room-types/:typeid';
   router.get(group + '/rooms', c('rooms@indexFromType'));
+  router.get(group + '/available', c('rooms@indexAvailableType'));
   router.get(group + '/facilities', c('room-facilities@indexFromType'));
 }
 

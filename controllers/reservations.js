@@ -18,27 +18,24 @@ function index(req, res) {
 }
 
 function create(req, res) {
-  if (!Object.keys(req.body).length) {
-    return res.status(400).send({
-      error:
-        'room_id:int, user_id:int, phone:string, checkin:date, checkout:date'
-    });
-  }
-
-  const values = [
-    req.body.room_id,
-    req.body.user_id,
-    req.body.phone,
-    req.body.checkin,
-    req.body.checkout
-  ];
+  const values = [];
   let query =
     `
     INSERT INTO reservations (room_id, user_id, phone, checkin, checkout)
     VALUES ?
     `;
 
-  mysql.query(query, [[values]], (error, result) => {
+  for (const room_id of req.body.room_id) {
+    values.push([
+      room_id,
+      req.body.user_id,
+      req.body.phone,
+      req.body.checkin,
+      req.body.checkout
+    ])
+  }
+
+  mysql.query(query, [values], (error, result) => {
     if (error) return res.status(400).send({ error });
     return res.status(200).send({ result });
   });

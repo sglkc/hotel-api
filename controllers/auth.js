@@ -13,12 +13,6 @@ function cryptPassword(password, callback) {
 }
 
 function register(req, res) {
-  if (!Object.keys(req.body).length) {
-    return res.status(400).send({
-      error: 'full_name:string, email:string, password:string, role:int'
-    });
-  }
-
   cryptPassword(req.body.password, (error, hash) => {
     if (error) return res.status(400).send({ error });
 
@@ -44,12 +38,6 @@ function register(req, res) {
 }
 
 function login(req, res) {
-  if (!Object.keys(req.body).length) {
-    return res.status(400).send({
-      error: 'email:string, password:string'
-    });
-  }
-
   const query =
     `
       SELECT r.name AS role_name, u.* FROM users AS u

@@ -13,12 +13,6 @@ function index(req, res) {
 }
 
 function create(req, res) {
-  if (!Object.keys(req.body).length) {
-    return res.status(400).send({
-      error: 'name:string, notes:string|null, image:string|null'
-    });
-  }
-
   const values = [
     req.body.name,
     req.body.notes,
@@ -36,12 +30,6 @@ function create(req, res) {
 }
 
 function update(req, res) {
-  if (!Object.keys(req.body).length) {
-    return res.status(400).send({
-      error: 'name:string, notes:string|null, image:string|null'
-    });
-  }
-
   const id = req.params.id;
   let query =
     `

@@ -26,13 +26,6 @@ function get(req, res) {
 }
 
 function create(req, res) {
-  if (!Object.keys(req.body).length) {
-    return res.status(400).send({
-      error:
-      'name:string, description:string, image:string, price:int, total:int'
-    });
-  }
-
   const values = [
     req.body.name,
     req.body.description,
@@ -52,13 +45,6 @@ function create(req, res) {
 }
 
 function update(req, res) {
-  if (!Object.keys(req.body).length) {
-    return res.status(400).send({
-      error:
-      'name:string, description:string, image:string, price:int, total:int'
-    });
-  }
-
   const id = req.params.id;
   let query =
     `
