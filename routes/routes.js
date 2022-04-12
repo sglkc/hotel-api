@@ -57,7 +57,12 @@ let group = '';
   let group = '/services/reservations';
   router.get(group + '', staff, c('reservations@index'));
   router.post(group + '', verify, c('reservations@create'));
-  router.delete(group + '/:id', staff, c('reservations@delete'));
+  router.delete(group + '/:id', verify, c('reservations@delete'));
+}
+
+{
+  let group = '/services/users/:userid';
+  router.get(group + '/reservations', verify, c('reservations@indexFromUser'));
 }
 
 module.exports.routes = router;

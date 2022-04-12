@@ -17,6 +17,25 @@ function index(req, res) {
   });
 }
 
+function indexFromUser(req, res) {
+  const userid = req.params.userid;
+  let query =
+    `
+    SELECT r.name room_name, t.name room_type, t.price price, res.*
+    FROM reservations AS res
+    LEFT JOIN rooms AS r
+    ON r.id = res.room_id
+    LEFT JOIN room_types AS t
+    ON t.id = r.room_type
+    WHERE res.user_id = ?
+    `;
+
+  mysql.query(query, [[userid]], (error, result) => {
+    if (error) return res.status(400).send({ error });
+    return res.status(200).send({ result });
+  });
+}
+
 function create(req, res) {
   const values = [];
   let query =
@@ -54,4 +73,4 @@ function _delete(req, res) {
   });
 }
 
-module.exports = { index, create, delete: _delete };
+module.exports = { index, indexFromUser, create, delete: _delete };
