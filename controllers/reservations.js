@@ -3,7 +3,8 @@ const { mysql } = require('../db/connection.js');
 function index(req, res) {
   let query =
     `
-    SELECT u.full_name user_name, u.email email, r.name room_name, res.*
+    SELECT u.full_name user_name, u.email email, u.phone phone,
+    r.name room_name, res.*
     FROM reservations AS res
     LEFT JOIN users AS u
     ON u.id = res.user_id
@@ -40,7 +41,7 @@ function create(req, res) {
   const values = [];
   let query =
     `
-    INSERT INTO reservations (room_id, user_id, phone, checkin, checkout)
+    INSERT INTO reservations (room_id, user_id, checkin, checkout)
     VALUES ?
     `;
 
@@ -48,7 +49,6 @@ function create(req, res) {
     values.push([
       room_id,
       req.body.user_id,
-      req.body.phone,
       req.body.checkin,
       req.body.checkout
     ])

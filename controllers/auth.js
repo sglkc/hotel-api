@@ -17,20 +17,33 @@ function register(req, res) {
     if (error) return res.status(400).send({ error });
 
     mysql.query(
-      'SELECT * FROM users WHERE EMAIL IN (?)',
-      [ req.body.email ],
+      'SELECT * FROM users WHERE email IN (?) OR phone IN (?)',
+      [ req.body.email, req.body.phone ],
       (error, result) => {
         if (error) return res.status(400).send({ error });
         if (result.length) {
-          return res.status(400).send({ error: 'Email has been registered' });
+          return res.status(400).send({
+            error: 'Email or phone has been registered'
+          });
         }
-        mysql.query(
-          'INSERT INTO users (full_name, email, password, role) VALUES (?)',
-          [ [ req.body.full_name, req.body.email, hash, req.body.role ] ],
-          (error, result) => {
-            if (error) return res.status(400).send({ error });
-            return res.status(200).send({ result });
-          }
+
+        const values = [
+          req.body.full_name,
+          req.body.email,
+          req.body.phone,
+          hash,
+          req.body.role
+        ];
+        let query =
+          `
+          INSERT INTO users (full_name, email, phone, password, role)
+          VALUES (?)
+          `;
+
+        mysql.query(query, [values], (error, result) => {
+          if (error) return res.status(400).send({ error });
+          return res.status(200).send({ result });
+        }
         );
       }
     );

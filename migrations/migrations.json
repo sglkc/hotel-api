@@ -313,6 +313,11 @@
 					"attributes": "default null"
 				},
 				{
+					"name": "phone",
+					"type": "varchar(100)",
+					"attributes": "default null"
+				},
+				{
 					"name": "role",
 					"type": "int(11)",
 					"attributes": "not null"
@@ -327,6 +332,7 @@
 				[
 					"Dummy",
 					"dummy@dum.my",
+					"12345678",
 					3,
 					"$2b$10$TcxykAkUBzDNGYkfbH5UMe663KoGTZMM4mHQYJOmdxizxSfKg9Pym"
 				]
@@ -359,11 +365,6 @@
 					"attributes": "not null"
 				},
 				{
-					"name": "phone",
-					"type": "varchar(100)",
-					"attributes": "default null"
-				},
-				{
 					"name": "checkin",
 					"type": "date",
 					"attributes": "not null"
@@ -383,7 +384,6 @@
 				[
 					1,
 					1,
-					"12345678",
 					"2022-04-11",
 					"2022-04-13",
 					"2022-04-11 11:46:12"
